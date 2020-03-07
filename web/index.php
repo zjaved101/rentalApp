@@ -23,7 +23,20 @@ $app->get('/', function() use($app) {
 });
 
 $app->get('/contacts', function() use($app) {
-  $output = "";
+  $output = '<nav class="navbar navbar-default navbar-static-top navbar-inverse">
+    <div class="container">
+      <ul class="nav navbar-nav">
+        <li class="active">
+          <a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="navbar-right">
+          <a href="/contacts"><span class="glyphicon glyphicon-book"></span> Contacts</a>
+        </li>
+      </ul>
+    </div>
+  </nav>';
   $contacts = file('contacts.txt');
   $output .= "<h1>Contacts</h1>";
   foreach ($contacts as $contact) {
