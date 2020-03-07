@@ -23,27 +23,41 @@ $app->get('/', function() use($app) {
 });
 
 $app->get('/contacts', function() use($app) {
-  $output = '<nav class="navbar navbar-default navbar-static-top navbar-inverse">
-    <div class="container">
-      <ul class="nav navbar-nav">
-        <li class="active">
-          <a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li class="navbar-right">
-          <a href="/contacts"><span class="glyphicon glyphicon-book"></span> Contacts</a>
-        </li>
-      </ul>
-    </div>
-  </nav>';
+  $output = '<!DOCTYPE html>
+  <html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+  </head>
+  
+  <body>
+    <nav class="navbar navbar-default navbar-static-top navbar-inverse">
+      <div class="container">
+        <ul class="nav navbar-nav">
+          <li class="active">
+            <a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="navbar-right">
+            <a href="/contacts"><span class="glyphicon glyphicon-book"></span> Contacts</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    ';
   $contacts = file('contacts.txt');
   $output .= "<h1>Contacts</h1>";
   foreach ($contacts as $contact) {
       list($name, $email) = explode(":", $contact);
       $output .= "<h2>Name</h2>\n<p>$name</p>\n";
-      $output .= "<h2>Email</h2>\n<p>$email</p>";
+      $output .= "<h2>Email</h2>\n<p>$email</p>\n";
   }
+
+  $output .= '</body>
+  </html>';
 
   return $output;
 });
