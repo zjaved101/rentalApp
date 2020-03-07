@@ -52,8 +52,8 @@ $app->get('/contacts', function() use($app) {
   $output .= "<h1>Contacts</h1>";
   foreach ($contacts as $contact) {
       list($name, $email) = explode(":", $contact);
-      $output .= "<h2>Name</h2>\n<p>$name</p>\n";
-      $output .= "<h2>Email</h2>\n<p>$email</p>\n";
+      $output .= "<h2 id='about'>Name</h2>\n<p id='aboutP'>$name</p>\n";
+      $output .= "<h2 id='about'>Email</h2>\n<p id='aboutP'>$email</p>\n";
   }
 
   $output .= '</body>
