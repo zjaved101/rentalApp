@@ -27,7 +27,7 @@ $app->get('/contacts', function() use($app) {
   $contacts = file('contacts.txt');
   $output .= "<h1>Contacts</h1>";
   foreach ($contacts as $contact) {
-      list($name, $email) = split(":", $contact);
+      list($name, $email) = explode(":", $contact);
       $output .= "<h2>Name</h2>\n<p>$name</p>\n";
       $output .= "<h2>Email</h2>\n<p>$email</p>";
   }
