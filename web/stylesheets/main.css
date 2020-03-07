@@ -34,3 +34,12 @@
 .jumbotron .lang-logo img {
   max-width: 100%;
 }
+#about {
+  margin-left: 50px;
+}
+#aboutP {
+  margin-left: 100px;
+}
+#service {
+  margin-left : 75px;
+}
