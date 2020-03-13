@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Finder\Finder;
+use App\Entity\User;
 
 class DefaultController extends AbstractController
 {
@@ -13,7 +14,20 @@ class DefaultController extends AbstractController
      */
     public function index()
     {
-        return $this->render('default/index.html.twig', ['controller_name' => 'default controller']);
+        // $this->get('twig')->addGlobal('login', false);
+        // return $this->render('default/index.html.twig', ['controller_name' => 'default controller']);
+        $user = $this->getUser();
+        if(isset($user))
+            return $this->render('default/index.html.twig', ['login' => true]);
+        else
+            return $this->render('default/index.html.twig');
+    }
+
+    /**
+     * @Route("/loggedin", name="loggedin")
+     */
+    public function loggedIn() {
+        return $this->render('default/index.html.twig', ['login' => true]);
     }
 
     /**
@@ -35,7 +49,29 @@ class DefaultController extends AbstractController
      */
     public function contacts() {
         $contacts = $this->getContactsFile();
-        return $this->render('default/contacts.html.twig', ['contacts' => $contacts]);
+        $user = $this->getUser();
+        if(isset($user))
+            return $this->render('default/contacts.html.twig', ['contacts' => $contacts, 'login' => true]);
+        else
+            return $this->render('default/contacts.html.twig', ['contacts' => $contacts]);
+    }
+
+    /**
+     * @Route("/admin")
+     */
+    public function admin() {
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        $emails = [];
+        foreach($users as $email) {
+            // echo $email->getEmail();
+            array_push($emails, $email->getEmail());
+        }
+
+        $user = $this->getUser();
+        if(isset($user))
+            return $this->render('default/admin.html.twig', ['login' => true, 'emails' => $emails]);
+        else
+            return $this->render('default/admin.html.twig');
     }
 
     public function getContactsFile() {
