@@ -35,6 +35,31 @@ class User implements UserInterface
      */
     private $password;
 
+    // /**
+    //  * @ORM\Column(type="string", length=255)
+    //  */
+    // private $firstName;
+
+    // /**
+    //  * @ORM\Column(type="string", length=255)
+    //  */
+    // private $lastName;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $phone;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -111,5 +136,65 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    // public function getFirstName(): ?string
+    // {
+    //     return $this->firstName;
+    // }
+
+    // public function setFirstName(string $firstName): self
+    // {
+    //     $this->firstName = $firstName;
+
+    //     return $this;
+    // }
+
+    // public function getLastName(): ?string
+    // {
+    //     return $this->lastName;
+    // }
+
+    // public function setLastName(string $lastName): self
+    // {
+    //     $this->lastName = $lastName;
+
+    //     return $this;
+    // }
+
+    public function name(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
     }
 }

@@ -24,6 +24,13 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * @Route("/users")
+     */
+    public function userSearch() {
+        return $this->render('default/users.html.twig');
+    }
+
+    /**
      * @Route("/loggedin", name="loggedin")
      */
     public function loggedIn() {
