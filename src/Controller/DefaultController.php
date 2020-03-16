@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Finder\Finder;
 use App\Entity\User;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends AbstractController
 {
@@ -14,13 +15,70 @@ class DefaultController extends AbstractController
      */
     public function index()
     {
-        // $this->get('twig')->addGlobal('login', false);
-        // return $this->render('default/index.html.twig', ['controller_name' => 'default controller']);
         $user = $this->getUser();
         if(isset($user))
             return $this->render('default/index.html.twig', ['login' => true]);
         else
             return $this->render('default/index.html.twig');
+    }
+
+    /**
+     * @Route("/users")
+     */
+    public function userSearch() {
+        $user = $this->getUser();
+        if(isset($user))
+            return $this->render('default/users.html.twig', ['login' => true]);
+        else
+            return $this->render('default/users.html.twig');
+    }
+
+    /**
+     * @Route("/results")
+     */
+    public function results(Request $request) {
+        $loggedIn = $this->getUser();
+
+        $firstName = $request->request->get('firstName');
+        $lastName = $request->request->get('lastName');
+        $homePhone = $request->request->get('homePhone');
+        $cellPhone = $request->request->get('cellPhone');
+        $email = $request->request->get('email');
+        $data = [];
+        $search = '';
+        $key = '';
+        if($firstName) {
+            $search = $firstName;
+            $key = "first";
+        }
+        if($lastName){
+            $search = $lastName;
+            $key = "last";
+        }
+        if($homePhone) {
+            $search = $homePhone;
+            $key = "home";
+        }
+        if($cellPhone){
+            $search = $cellPhone;
+            $key = "cell";
+        }
+        if($email) {
+            $search = $email;
+            $key = "email";
+        }
+        
+        $users = $this->getDoctrine()->getRepository(User::class)->findKey($search, $key);
+        if($users) {
+            foreach($users as $user) {
+                array_push($data, $user->getFirstName().' '.$user->getLastName() . ':' . $user->getHomePhone() . ':' . $user->getCellPhone() . ':' . $user->getEmail());
+            }
+        }
+        
+        if(isset($loggedIn))
+            return $this->render('default/results.html.twig', ['users' => $data, 'login' => true]);
+        else
+            return $this->render('default/results.html.twig', ['users' => $data]);
     }
 
     /**

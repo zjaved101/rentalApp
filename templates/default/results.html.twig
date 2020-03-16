@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Results{% endblock %}
+
+{% block body %}
+    <h1>User Results</h1>
+    <table style="width:100%">
+        <tr>
+            <th>Name</th>
+            <th>Home Phone</th>
+            <th>Cell Phone</th>
+            <th>Email</th>
+        </tr>
+        {% for data in users %}
+        {% set entry = data | split(':') %}
+            <tr>
+                <td>{{ entry[0] }}</td>
+                <td>{{ entry[1] }}</td>
+                <td>{{ entry[2] }}</td>
+                <td>{{ entry[3] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

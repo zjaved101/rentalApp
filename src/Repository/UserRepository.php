@@ -47,6 +47,83 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $query->getResult();
     }
 
+    /**
+     * @return User[]
+     */
+    public function findKey(String $search, String $key) {
+        if($key == "first")
+            return $this->findFirstName($search);
+        if($key == "last")
+            return $this->findLastName($search);
+        if($key == "home")
+            return $this->findHomePhone($search);
+        if($key == "cell")
+            return $this->findCellPhone($search);
+        if($key == "email")
+            return $this->findEmail($search);
+    }
+
+    /**
+     * @return User[]
+     */
+    public function findEmail(String $email) {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT u FROM App\Entity\User u WHERE u.email = :email')->setParameter('email', $email);
+        return $query->getResult();
+    }
+
+    /**
+     * @return User[]
+     */
+    public function findHomePhone(String $phone) {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT u FROM App\Entity\User u WHERE u.homePhone = :phone')->setParameter('phone', $phone);
+        return $query->getResult();
+    }
+
+    /**
+     * @return User[]
+     */
+    public function findCellPhone(String $phone) {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT u FROM App\Entity\User u WHERE u.cellPhone = :phone')->setParameter('phone', $phone);
+        return $query->getResult();
+    }
+
+    /**
+     * @return User[]
+     */
+    public function findName(String $firstName, String $lastName) {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT u FROM App\Entity\User u WHERE u.firstName = :first AND u.lastName = :last')->setParameters(array(
+            'first' => $firstName, 
+            'last' => $lastName));
+
+        return $query->getResult();
+    }
+
+    /**
+     * @return User[]
+     */
+    public function findFirstName(String $firstName) {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT u FROM App\Entity\User u WHERE u.firstName = :first')->setParameters(array(
+            'first' => $firstName));
+
+        return $query->getResult();
+    }
+
+    /**
+     * @return User[]
+     */
+    public function findLastName(String $lastName) {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT u FROM App\Entity\User u WHERE u.lastName = :last')->setParameters(array( 
+            'last' => $lastName));
+
+        return $query->getResult();
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
