@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search{% endblock %}
+
+{% block body %}
+    <h1>Search</h1>
+
+    {{ form_start(searchForm) }}
+        {{ form_row(searchForm.name) }}
+        {{ form_row(searchForm.phone) }}
+        {{ form_row(searchForm.email) }}
+
+        <button class="btn">Search</button>
+    {{ form_end(searchForm) }}
+{% endblock %}

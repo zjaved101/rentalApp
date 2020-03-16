@@ -162,7 +162,7 @@ class User implements UserInterface
     //     return $this;
     // }
 
-    public function name(): ?string
+    public function getName(): ?string
     {
         return $this->name;
     }

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Finder\Finder;
 use App\Entity\User;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends AbstractController
 {
@@ -27,7 +28,52 @@ class DefaultController extends AbstractController
      * @Route("/users")
      */
     public function userSearch() {
-        return $this->render('default/users.html.twig');
+        $user = $this->getUser();
+        if(isset($user))
+            return $this->render('default/users.html.twig', ['login' => true]);
+        else
+            return $this->render('default/users.html.twig');
+    }
+
+    /**
+     * @Route("/results")
+     */
+    public function results(Request $request) {
+        $loggedIn = $this->getUser();
+
+        $name = $request->request->get('name');
+        $phone = $request->request->get('phone');
+        $email = $request->request->get('email');
+        $data = [];
+        if($name) {
+            $users = $this->getDoctrine()->getRepository(User::class)->findName($name);
+            if($users) {
+                foreach($users as $user) {
+                    array_push($data, $user->getName() . ':' . $user->getPhone() . ':' . $user->getEmail());
+                }
+            }
+        }
+        elseif($phone) {
+            $users = $this->getDoctrine()->getRepository(User::class)->findPhone($phone);
+            if($users) {
+                foreach($users as $user) {
+                    array_push($data, $user->getName() . ':' . $user->getPhone() . ':' . $user->getEmail());
+                }
+            }
+        }
+        else {
+            $users = $this->getDoctrine()->getRepository(User::class)->findEmail($email);
+            if($users) {
+                foreach($users as $user) {
+                    array_push($data, $user->getName() . ':' . $user->getPhone() . ':' . $user->getEmail());
+                }
+            }
+        }
+        
+        if(isset($loggedIn))
+            return $this->render('default/results.html.twig', ['users' => $data, 'login' => true]);
+        else
+            return $this->render('default/results.html.twig', ['users' => $data]);
     }
 
     /**
