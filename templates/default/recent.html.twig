@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Recent!{% endblock %}
+{% block body %}
+    <h1>Recently Visited Pages</h1>
+    <ul>
+        {% for page in recent %}
+            <li>{{ page }}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

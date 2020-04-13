@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Popular!{% endblock %}
+{% block body %}
+    <h1>Top 5 Popular Pages</h1>
+    <ul>
+        {% for page in popular %}
+            <li>{{ page }}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

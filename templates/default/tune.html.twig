@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Tune{% endblock %}
+{% block body %}
+    <style>
+        #about {
+        margin-left: 50px;
+        }
+        #aboutP {
+        margin-left: 100px;
+        }
+        #service {
+        margin-left : 75px;
+        }
+    </style>
+
+    <h1>Tune Your Car!</h1>
+    <img src="{{ asset('images/tune.gif')}}" />
+    <p>Here you can purchase someones tuning services to get more powah baby!</p>
+
+{% endblock %}
