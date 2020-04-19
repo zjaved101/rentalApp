@@ -294,7 +294,45 @@ class DefaultController extends AbstractController
         else
             return $this->render('default/contacts.html.twig', ['contacts' => $contacts]);
     }
-    
+
+    /**
+     * @Route("/getlistofusers")
+     */
+    public function getListOfUsers(Request $request) {
+        // $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        // $emails = [];
+        // foreach($users as $email) {
+        //     if("admin@email.com" != $email->getEmail())
+        //         array_push($emails, $email->getEmail());
+        // }
+
+        // $emails = $this->getAllEmails();
+        $users = $this->getUserObjects();
+
+        $response = new Response();
+        $response->setContent(json_encode([
+            'users' => $users,
+        ]));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/listofusers")
+     */
+    public function listOfUsers(Request $request) {
+        
+        // $emails = $this->getAllEmails();
+        $users = $this->getUserObjects();
+        # DO CURL TO GET OTHER COMPANY USERS AND PASS IT TO THE VIEW, MAKE SURE ITS A LIST OF JSON OBJECTS
+
+        $user = $this->getUser();
+        if(isset($user))
+            return $this->render('default/listOfUsers.html.twig', ['users' => $users, 'login' => true]);
+        else
+            return $this->render('default/listOfUsers.html.twig', ['users' => $users]);
+    }
+
     /**
      * @Route("/clear")
      */
@@ -324,12 +362,14 @@ class DefaultController extends AbstractController
      * @Route("/admin")
      */
     public function admin() {
-        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
-        $emails = [];
-        foreach($users as $email) {
-            // echo $email->getEmail();
-            array_push($emails, $email->getEmail());
-        }
+        // $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        // $emails = [];
+        // foreach($users as $email) {
+        //     // echo $email->getEmail();
+        //     array_push($emails, $email->getEmail());
+        // }
+
+        $emails = $this->getAllEmails();
 
         $user = $this->getUser();
         if(isset($user))
@@ -403,5 +443,32 @@ class DefaultController extends AbstractController
         arsort($popular);
         $top5 = array_slice($popular, 0, 5, true);
         return array_keys($top5);
+    }
+
+    /**
+     * Returns a list of all user emails from database
+     */
+    public function getAllEmails() {
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        $emails = [];
+        foreach($users as $email) {
+            if("admin@email.com" != $email->getEmail())
+                array_push($emails, $email->getEmail());
+        }
+
+        return $emails;
+    }
+
+    public function getUserObjects() {
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        $objects = [];
+        foreach($users as $user) {
+            if("admin@email.com" != $user->getEmail()) {
+                // array_push($emails, $email->getEmail());
+                $arr = array("firstName" => $user->getFirstName(), "lastName" => $user->getLastName(), "email" => $user->getEmail());
+                array_push($objects, $arr);
+            }
+        }
+        return $objects;
     }
 }
