@@ -324,7 +324,7 @@ class DefaultController extends AbstractController
     public function listOfUsers(Request $request) {
         $users = $this->getUserObjects();
         $mindcrunch = $this->curlUsers();
-        $mindcrunch = json_decode($mindcrunch);
+        // $mindcrunch = json_decode($mindcrunch);
 
         $user = $this->getUser();
         if(isset($user))
@@ -478,7 +478,10 @@ class DefaultController extends AbstractController
                 'Accept: application/json',                                                                       
             )
         );
-        curl_close($ch);
+        $contents = curl_exec ($ch);
+        curl_close ($ch);
+
+        return json_decode($contents);
 
         // // LOCAL
         // $ch = curl_init();
