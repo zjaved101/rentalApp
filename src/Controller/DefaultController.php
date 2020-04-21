@@ -324,6 +324,7 @@ class DefaultController extends AbstractController
     public function listOfUsers(Request $request) {
         $users = $this->getUserObjects();
         $mindcrunch = $this->curlUsers();
+        $mindcrunch = json_decode($mindcrunch);
 
         $user = $this->getUser();
         if(isset($user))
@@ -462,17 +463,30 @@ class DefaultController extends AbstractController
     }
 
     public function curlUsers() {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://mindcrunch.com/all_users.php");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-                'Accept: application/json',                                                                       
-            )
-        );
+        $fixieUrl = getenv("FIXIE_URL");
+        $parsedFixieUrl = parse_url($fixieUrl);
 
-        $contents = curl_exec ($ch);
-        curl_close ($ch);
+        $proxy = $parsedFixieUrl['host'].":".$parsedFixieUrl['port'];
+        $proxyAuth = $parsedFixieUrl['user'].":".$parsedFixieUrl['pass'];
 
-        return json_decode($contents);
+        $ch = curl_init("https://mindcrunch.com/all_users.php");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_PROXY, $proxy);
+        curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyAuth);
+        curl_close($ch);
+
+        // // LOCAL
+        // $ch = curl_init();
+        // curl_setopt($ch, CURLOPT_URL, "https://mindcrunch.com/all_users.php");
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+        //         'Accept: application/json',                                                                       
+        //     )
+        // );
+
+        // $contents = curl_exec ($ch);
+        // curl_close ($ch);
+
+        // return json_decode($contents);
     }
 }
