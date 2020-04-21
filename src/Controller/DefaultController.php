@@ -470,8 +470,9 @@ class DefaultController extends AbstractController
         $proxy = $parsedFixieUrl['host'].":".$parsedFixieUrl['port'];
         $proxyAuth = $parsedFixieUrl['user'].":".$parsedFixieUrl['pass'];
 
-        $ch = curl_init("https://mindcrunch.com/all_users.php");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://mindcrunch.com/all_users.php");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_PROXY, $proxy);
         curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyAuth);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
