@@ -464,7 +464,7 @@ class DefaultController extends AbstractController
 
     public function curlUsers() {
         // $fixieUrl = getenv("FIXIE_URL");
-        $fixieUrl = getenv("http://fixie:dGJsfY3x4qrKabP@velodrome.usefixie.com:80");
+        $fixieUrl = "http://fixie:dGJsfY3x4qrKabP@velodrome.usefixie.com:80";
         $parsedFixieUrl = parse_url($fixieUrl);
 
         $proxy = $parsedFixieUrl['host'].":".$parsedFixieUrl['port'];
