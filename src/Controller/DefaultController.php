@@ -474,6 +474,10 @@ class DefaultController extends AbstractController
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_PROXY, $proxy);
         curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyAuth);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+                'Accept: application/json',                                                                       
+            )
+        );
         curl_close($ch);
 
         // // LOCAL
