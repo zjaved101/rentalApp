@@ -9,6 +9,7 @@ use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpClient\HttpClient;
 
 class DefaultController extends AbstractController
 {
@@ -321,16 +322,14 @@ class DefaultController extends AbstractController
      * @Route("/listofusers")
      */
     public function listOfUsers(Request $request) {
-        
-        // $emails = $this->getAllEmails();
         $users = $this->getUserObjects();
-        # DO CURL TO GET OTHER COMPANY USERS AND PASS IT TO THE VIEW, MAKE SURE ITS A LIST OF JSON OBJECTS
+        $mindcrunch = $this->curlUsers();
 
         $user = $this->getUser();
         if(isset($user))
-            return $this->render('default/listOfUsers.html.twig', ['users' => $users, 'login' => true]);
+            return $this->render('default/listOfUsers.html.twig', ['users' => $users, 'mindcrunch' => $mindcrunch, 'login' => true]);
         else
-            return $this->render('default/listOfUsers.html.twig', ['users' => $users]);
+            return $this->render('default/listOfUsers.html.twig', ['users' => $users, 'mindcrunch' => $mindcrunch]);
     }
 
     /**
@@ -362,13 +361,6 @@ class DefaultController extends AbstractController
      * @Route("/admin")
      */
     public function admin() {
-        // $users = $this->getDoctrine()->getRepository(User::class)->findAll();
-        // $emails = [];
-        // foreach($users as $email) {
-        //     // echo $email->getEmail();
-        //     array_push($emails, $email->getEmail());
-        // }
-
         $emails = $this->getAllEmails();
 
         $user = $this->getUser();
@@ -395,8 +387,6 @@ class DefaultController extends AbstractController
     public function setRecentCookie(Request $request, Response $response, String $page) {
         $cookies = $request->cookies;
         if (!$cookies->has('recent')) {
-            // var_dump($cookies->get('test'));
-            // $request->header->setCookie('recent', serialize(array()), time() + 3600);
             $recent = array();
         } else
             $recent = unserialize($cookies->get('recent'));
@@ -464,11 +454,25 @@ class DefaultController extends AbstractController
         $objects = [];
         foreach($users as $user) {
             if("admin@email.com" != $user->getEmail()) {
-                // array_push($emails, $email->getEmail());
                 $arr = array("firstName" => $user->getFirstName(), "lastName" => $user->getLastName(), "email" => $user->getEmail());
                 array_push($objects, $arr);
             }
         }
         return $objects;
+    }
+
+    public function curlUsers() {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://mindcrunch.com/all_users.php");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+                'Accept: application/json',                                                                       
+            )
+        );
+
+        $contents = curl_exec ($ch);
+        curl_close ($ch);
+
+        return json_decode($contents);
     }
 }
