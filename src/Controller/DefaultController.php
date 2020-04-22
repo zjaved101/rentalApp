@@ -484,18 +484,21 @@ class DefaultController extends AbstractController
 
         // return json_decode($contents);
 
-        // LOCAL
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://mindcrunch.com/all_users.php");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-                'Accept: application/json',                                                                       
-            )
-        );
+        // // LOCAL
+        // $ch = curl_init();
+        // curl_setopt($ch, CURLOPT_URL, "https://mindcrunch.com/all_users.php");
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+        //         'Accept: application/json',                                                                       
+        //     )
+        // );
 
-        $contents = curl_exec ($ch);
-        curl_close ($ch);
+        // $contents = curl_exec ($ch);
+        // curl_close ($ch);
 
+        // return json_decode($contents);
+
+        $contents = shell_exec("curl -H \"Accept: application/json\" https://mindcrunch.com/all_users.php");
         return json_decode($contents);
     }
 }
