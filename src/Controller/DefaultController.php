@@ -463,39 +463,39 @@ class DefaultController extends AbstractController
     }
 
     public function curlUsers() {
-        // $fixieUrl = getenv("FIXIE_URL");
-        $fixieUrl = "http://fixie:dGJsfY3x4qrKabP@velodrome.usefixie.com:80";
-        $parsedFixieUrl = parse_url($fixieUrl);
+        // // $fixieUrl = getenv("FIXIE_URL");
+        // $fixieUrl = "http://fixie:dGJsfY3x4qrKabP@velodrome.usefixie.com:80";
+        // $parsedFixieUrl = parse_url($fixieUrl);
 
-        $proxy = $parsedFixieUrl['host'].":".$parsedFixieUrl['port'];
-        $proxyAuth = $parsedFixieUrl['user'].":".$parsedFixieUrl['pass'];
+        // $proxy = $parsedFixieUrl['host'].":".$parsedFixieUrl['port'];
+        // $proxyAuth = $parsedFixieUrl['user'].":".$parsedFixieUrl['pass'];
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://mindcrunch.com/all_users.php");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_PROXY, $proxy);
-        curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyAuth);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-                'Accept: application/json',                                                                       
-            )
-        );
-        $contents = curl_exec ($ch);
-        curl_close ($ch);
-
-        return json_decode($contents);
-
-        // // LOCAL
         // $ch = curl_init();
         // curl_setopt($ch, CURLOPT_URL, "https://mindcrunch.com/all_users.php");
         // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // curl_setopt($ch, CURLOPT_PROXY, $proxy);
+        // curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyAuth);
         // curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
         //         'Accept: application/json',                                                                       
         //     )
         // );
-
-        // $contents = curl_exec ($ch);
-        // curl_close ($ch);
+        // $contents = curl_exec($ch);
+        // curl_close($ch);
 
         // return json_decode($contents);
+
+        // LOCAL
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://mindcrunch.com/all_users.php");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
+                'Accept: application/json',                                                                       
+            )
+        );
+
+        $contents = curl_exec ($ch);
+        curl_close ($ch);
+
+        return json_decode($contents);
     }
 }
