@@ -339,8 +339,11 @@ class DefaultController extends AbstractController
     public function getAllProducts(Request $request) {
         $response = new Response();
         $products = $this->getProductObjects();
+        // $response->setContent(json_encode([
+        //     'products' => $products,
+        // ]));
         $response->setContent(json_encode([
-            'products' => $products,
+            $products,
         ]));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -477,16 +480,16 @@ class DefaultController extends AbstractController
 
     public function getProductObjects() {
         $objects = [
-            array("productName" => "Marketplace for Car Rentals", "description" => "Here you can rent any car you want. Just select a car and get in contact with the owner to start negotiations.", "cost" => "3.00", "img" => "http://zanjavednow.tech/images/rentCar.jpg"),
-            array("productName" => "Marketplace for Buying Cars", "description" => "Here you can buy any car you want. Just select a car and get in contact with the owner to start negotiations.", "cost" => "3.00", "img" => "http://zanjavednow.tech/images/buyCar.jpg"),
-            array("productName" => "Marketplace for Selling Cars", "description" => "Here you can sell any car you own. Just fill out car and contact information and start dealing.", "cost" => "3.00", "img" => "http://zanjavednow.tech/images/sellCar.jpg"),
-            array("productName" => "Marketplace for Buying Car Accessories", "description" => "Here you can buy car accessories.", "cost" => "3.00", "img" => "http://zanjavednow.tech/images/buyAccessory.jpg"),
-            array("productName" => "Marketplace for Selling Car Accessories", "description" => "Here you can sell car accessories.", "cost" => "3.00", "img" => "http://zanjavednow.tech/images/buyAccessory.jpg"),
-            array("productName" => "Marketplace for Buying Car Parts", "description" => "Here you can buy car parts.", "cost" => "3.00", "img" => "http://zanjavednow.tech/images/buyParts.png"),
-            array("productName" => "Marketplace for Selling Car Parts", "description" => "Here you can sell car parts.", "cost" => "3.00", "img" => "http://zanjavednow.tech/images/buyParts.png"),
-            array("productName" => "Marketplace for Tuning Cars", "description" => "Here you can purchase someones tuning services to get more powah baby!", "cost" => "3.00", "img" => "http://zanjavednow.tech/images/tune.gif"),
-            array("productName" => "Marketplace for Repair Services", "description" => "Here you can purchase someones repair services.", "cost" => "3.00", "img" => "http://zanjavednow.tech/images/repair.png"),
-            array("productName" => "Marketplace for Learning Driving Techniques", "description" => "Here you can take driving courses to learn techniques suited for the streets, tracks, or anywhere!", "cost" => "3.00", "img" => "http://zanjavednow.tech/images/learn.png")
+            array("product" => "Marketplace for Car Rentals", "description" => "Here you can rent any car you want. Just select a car and get in contact with the owner to start negotiations.", "price" => "3.00", "picture" => "http://zanjavednow.tech/images/rentCar.jpg"),
+            array("product" => "Marketplace for Buying Cars", "description" => "Here you can buy any car you want. Just select a car and get in contact with the owner to start negotiations.", "price" => "3.00", "picture" => "http://zanjavednow.tech/images/buyCar.jpg"),
+            array("product" => "Marketplace for Selling Cars", "description" => "Here you can sell any car you own. Just fill out car and contact information and start dealing.", "price" => "3.00", "picture" => "http://zanjavednow.tech/images/sellCar.jpg"),
+            array("product" => "Marketplace for Buying Car Accessories", "description" => "Here you can buy car accessories.", "price" => "3.00", "picture" => "http://zanjavednow.tech/images/buyAccessory.jpg"),
+            array("product" => "Marketplace for Selling Car Accessories", "description" => "Here you can sell car accessories.", "price" => "3.00", "picture" => "http://zanjavednow.tech/images/buyAccessory.jpg"),
+            array("product" => "Marketplace for Buying Car Parts", "description" => "Here you can buy car parts.", "price" => "3.00", "picture" => "http://zanjavednow.tech/images/buyParts.png"),
+            array("product" => "Marketplace for Selling Car Parts", "description" => "Here you can sell car parts.", "price" => "3.00", "picture" => "http://zanjavednow.tech/images/buyParts.png"),
+            array("product" => "Marketplace for Tuning Cars", "description" => "Here you can purchase someones tuning services to get more powah baby!", "price" => "3.00", "picture" => "http://zanjavednow.tech/images/tune.gif"),
+            array("product" => "Marketplace for Repair Services", "description" => "Here you can purchase someones repair services.", "price" => "3.00", "picture" => "http://zanjavednow.tech/images/repair.png"),
+            array("product" => "Marketplace for Learning Driving Techniques", "description" => "Here you can take driving courses to learn techniques suited for the streets, tracks, or anywhere!", "price" => "3.00", "picture" => "http://zanjavednow.tech/images/learn.png")
         ];
 
         return $objects;
